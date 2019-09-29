@@ -1,0 +1,55 @@
+enable
+configure terminal
+enable secret SenhadaEnable
+hostname RT-01
+banner motd 
+banner motd "ACESSO APENAS PARA O DEPARTAMENTO DE TI"
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+ip domain-name redesenai.local
+crypto key generate rsa general-key modulus 1024
+username fagnersantos privilege 15 secret Senha1783
+username estagiario privilege 1 secret Senha123
+line vty 0 15
+transport input ssh
+exec-timeout 300
+login local
+exit
+login block-for 240 attempts 7 within 600
+security password min-length 8
+interface g0/1.10
+encapsulation dot1q 10
+ip address 172.16.1.1 255.255.255.0
+ip helper-address
+interface g0/1.20
+encapsulation dot1q 20
+ip address 172.16.0.0 255.255.255.0
+ip helper-address
+interface g0/1.100
+encapsulation dot1q 
+ip address 172.16.0.0 255.255.255.0
+ip helper-address
+interface g0/1
+no shutdown
+interface serial 0/0/0
+ip address 200.18.189.1 255.255.255.252
+no shutdown
+exit
+interface serial 0/0/1
+ip address 200.18.189.2 255.255.255.252
+no shutdown
+exit
+ip route 200.18.189.0 255.255.255.252 200.18.189.0
+ip route 200.18.189.0 255.255.255.252 200.18.189.0
+ip route 200.18.189.0 255.255.255.252 200.18.189.0
+ip route 200.18.189.0 255.255.255.252 200.18.189.0
+ip route 172.16.0.0 255.255.240.0 200.18.189.0
+ip route 172.16.0.0 255.255.240.0 200.18.189.0
+ip route 172.16.0.0 255.255.255.0 200.18.189.0
+ip route 172.16.0.0 255.255.255. 200.18.189.0
+ip route 172.16.0.0 255.255.254.0 200.18.189.0
+ip route 172.16.0.0 255.255.254.0 200.18.189.0
+do wr

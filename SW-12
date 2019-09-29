@@ -1,0 +1,44 @@
+enable
+configure terminal
+hostname SW-12
+banner motd "ACESSO APENAS PARA O DEPARTAMENTO DE TI"
+enable secret SenhadaEnable
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+ip domain-name rede1.local
+crypto key generate rsa general-keys modulus 1024
+username fagnersantos privilege 15 secret Senha1783
+username estagiario privilege 1 secret Senha123
+line vty 0 15
+transport input ssh 
+exec-timeout 300
+exit
+vlan 10
+name VLAN10
+vlan 20
+name VLAN20
+vlan 100
+name VLAN100
+exit
+interface f 0/1
+switchport mode access
+switchport access vlan 10
+exit
+interface f 0/2 
+switchport mode access 
+switchport access vlan 20
+exit
+interface g 0/1
+switchport mode trunk 
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,100,99
+switchport mode access
+switchport access vlan 100
+exit
+interface vlan 100
+ip address 172.16.1.140 255.255.255.240
+description INTERFACE VLAN 100
+do wr
